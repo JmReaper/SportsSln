@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace SportsStore.Pages
 {
-    public class _ViewlmportsModel : PageModel
+    public class _ViewImportsModel : PageModel
     {
         public void OnGet()
         {

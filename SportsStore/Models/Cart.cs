@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SportsStore.Models
 {
     public class Cart
     {
         public List<CartLine> Lines { get; set; } = new List<CartLine>();
-
-        public void AddItem(Product product, int quantity)
+        public virtual void AddItem(Product product, int quantity)
         {
-            CartLine? line = Lines
-                .Where(p => p.Product.Id == product.Id)
-                .FirstOrDefault();
-
+            CartLine line = Lines
+            .Where(p => p.Product.ProductId == product.ProductId)
+            .FirstOrDefault();
             if (line == null)
             {
                 Lines.Add(new CartLine
@@ -26,20 +26,16 @@ namespace SportsStore.Models
                 line.Quantity += quantity;
             }
         }
-
-        public void RemoveLine(Product product) =>
-            Lines.RemoveAll(l => l.Product.Id == product.Id);
-
+        public virtual void RemoveLine(Product product) =>
+        Lines.RemoveAll(l => l.Product.ProductId == product.ProductId);
         public decimal ComputeTotalValue() =>
-            Lines.Sum(e => e.Product.Price * e.Quantity);
-
-        public void Clear() => Lines.Clear();
+        Lines.Sum(e => e.Product.Price * e.Quantity);
+        public virtual void Clear() => Lines.Clear();
     }
-
     public class CartLine
     {
         public int CartLineID { get; set; }
-        public Product Product { get; set; } = new Product();
+        public Product Product { get; set; }
         public int Quantity { get; set; }
     }
 }
